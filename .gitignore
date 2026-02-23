@@ -1,0 +1,17 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Node / TS (if extensions grow into package form)
+node_modules/
+dist/
+coverage/
+
+# Env / secrets
+.env
+.env.*
