@@ -2,11 +2,11 @@
 
 Personal extension repository for the **pi coding agent**.
 
-This repo is the source of truth for your custom pi extensions, while pi auto-loads them through symlinks under `~/.pi/agent/extensions/`.
+This repo is the source of truth for your custom pi extensions, while pi auto-loads them through the symlinked `~/.pi/agent/extensions` folder.
 
 ---
 
-## Included extension
+## Included extensions
 
 ### `colon-commands.ts`
 Vim-like `:` command behavior:
@@ -19,6 +19,14 @@ Also provides slash aliases:
 - `/q` → quit pi
 - `/m` → model helper behavior
 
+### `session-context.ts`
+Provides direct session context for the current pi instance:
+
+- slash command `/session-file` to show PID + current session file + session ID
+- tool `get_current_session` for the LLM to read current `pid`, `sessionFile`, and `sessionId`
+
+This removes the need for PID tracker temp files.
+
 ---
 
 ## Directory layout
@@ -26,40 +34,41 @@ Also provides slash aliases:
 ```text
 ~/works/pi-extensions/
 ├── colon-commands.ts
+├── session-context.ts
 ├── .gitignore
 └── README.md
 ```
 
-pi auto-discovery path (symlink target):
+pi auto-discovery path (folder symlink):
 
 ```text
-~/.pi/agent/extensions/colon-commands.ts -> ~/works/pi-extensions/colon-commands.ts
+~/.pi/agent/extensions -> ~/works/pi-extensions
 ```
 
 ---
 
-## Setup (already done)
+## Setup (recommended)
 
 If you recreate on another machine:
 
 1. Clone repo into `~/works/pi-extensions`
-2. Ensure extension directory exists:
-   - `mkdir -p ~/.pi/agent/extensions`
-3. Link extension into pi discovery path:
-   - `ln -sfn ~/works/pi-extensions/colon-commands.ts ~/.pi/agent/extensions/colon-commands.ts`
-4. In pi, run:
+2. Replace extension discovery folder with a symlink:
+   - `rm -rf ~/.pi/agent/extensions`
+   - `ln -sfn ~/works/pi-extensions ~/.pi/agent/extensions`
+3. In pi, run:
    - `/reload`
 
 ---
 
 ## Development workflow
 
-1. Edit extension in this repo:
-   - `~/works/pi-extensions/colon-commands.ts`
+1. Edit extensions in this repo:
+   - `~/works/pi-extensions/*.ts`
 2. Reload pi runtime:
    - `/reload`
-3. Quick test:
+3. Quick tests:
    - `:m` then Enter
+   - `/session-file`
    - `:q`
 
 ---
